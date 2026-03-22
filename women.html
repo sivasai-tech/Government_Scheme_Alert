@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Schemes - Government Scheme Notifier</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container"><div class="header-content">
+            <div class="logo-section"><span class="logo">🇮🇳</span><h1>Government Scheme Notifier</h1></div>
+            <div class="user-section"><span class="welcome">Welcome, <strong id="usernameDisplay"></strong>!</span><button onclick="logout()" class="btn-logout">Logout</button></div>
+        </div></div>
+    </header>
+
+    <div id="notificationBanner" class="notification-banner" style="display:none;">
+        <span class="banner-icon">⚠️</span><span id="notificationText"></span>
+    </div>
+
+    <section class="schemes-page"><div class="container">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        <div class="page-header">
+            <div class="icon">👩</div>
+            <h1>Women Schemes</h1>
+            <p>Welfare schemes for women and girl child</p>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search schemes...">
+        </div>
+        <div class="schemes-grid">
+                <div class="scheme-card" data-scheme-id="women_beti">
+                    <h3>Beti Bachao Beti Padhao</h3>
+                    <span class="deadline-badge" data-deadline="2026-12-31">📅 Deadline: December 31, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Campaign to save girl child and ensure their education and welfare.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>Girl children from all communities</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>December 31, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://wcd.nic.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('women_beti', 'Beti Bachao Beti Padhao', '2026-12-31')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+                <div class="scheme-card" data-scheme-id="women_ujjwala">
+                    <h3>Ujjwala Yojana</h3>
+                    <span class="deadline-badge" data-deadline="2026-08-31">📅 Deadline: August 31, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Free LPG connections to women from BPL households.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>Women from BPL families</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>August 31, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://pmuy.gov.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('women_ujjwala', 'Ujjwala Yojana', '2026-08-31')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+                <div class="scheme-card" data-scheme-id="women_sukanya">
+                    <h3>Sukanya Samriddhi Yojana</h3>
+                    <span class="deadline-badge" data-deadline="2026-12-31">📅 Deadline: December 31, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Small savings scheme for girl child with high interest rates and tax benefits.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>Girl child below 10 years</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>December 31, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://nsiindia.gov.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('women_sukanya', 'Sukanya Samriddhi Yojana', '2026-12-31')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div></section>
+
+    <footer class="footer"><div class="container">
+        <p>&copy; 2026 Government Scheme Notifier | All Rights Reserved</p>
+        <p>Made with ❤️ for India 🇮🇳</p>
+    </div></footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/alarms.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        checkAuth();
+        const _u = localStorage.getItem('username');
+        if (_u) document.getElementById('usernameDisplay').textContent = _u;
+
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUpcomingDeadlines();
+            // Update deadline badges with urgency labels
+            document.querySelectorAll('[data-deadline]').forEach(badge => {
+                const deadline = badge.getAttribute('data-deadline');
+                const label = getUrgencyLabel(deadline);
+                if (label) badge.textContent = label;
+                // Add countdown class
+                const today = new Date();
+                const dl = new Date(deadline);
+                const days = Math.round((dl - today) / 86400000);
+                badge.classList.add(
+                    days < 0 ? 'expired' : days <= 7 ? 'critical' : days <= 30 ? 'warning' : 'safe'
+                );
+            });
+        });
+    </script>
+</body>
+</html>

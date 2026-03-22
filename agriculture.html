@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Schemes - Government Scheme Notifier</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container"><div class="header-content">
+            <div class="logo-section"><span class="logo">🇮🇳</span><h1>Government Scheme Notifier</h1></div>
+            <div class="user-section"><span class="welcome">Welcome, <strong id="usernameDisplay"></strong>!</span><button onclick="logout()" class="btn-logout">Logout</button></div>
+        </div></div>
+    </header>
+
+    <div id="notificationBanner" class="notification-banner" style="display:none;">
+        <span class="banner-icon">⚠️</span><span id="notificationText"></span>
+    </div>
+
+    <section class="schemes-page"><div class="container">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        <div class="page-header">
+            <div class="icon">🌾</div>
+            <h1>Agriculture Schemes</h1>
+            <p>Farmer welfare and agricultural support programs</p>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search schemes...">
+        </div>
+        <div class="schemes-grid">
+                <div class="scheme-card" data-scheme-id="agri_pmkisan">
+                    <h3>PM-KISAN Scheme</h3>
+                    <span class="deadline-badge" data-deadline="2026-04-10">📅 Deadline: April 10, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Direct income support of ₹6000 annually to farmer families owning cultivable land.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>Small & marginal farmers</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>April 10, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://pmkisan.gov.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('agri_pmkisan', 'PM-KISAN Scheme', '2026-04-10')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+                <div class="scheme-card" data-scheme-id="agri_fasalbima">
+                    <h3>Fasal Bima Yojana</h3>
+                    <span class="deadline-badge" data-deadline="2026-05-30">📅 Deadline: May 30, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Comprehensive crop insurance against natural calamities, pests, and diseases.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>All farmers</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>May 30, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://pmfby.gov.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('agri_fasalbima', 'Fasal Bima Yojana', '2026-05-30')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+                <div class="scheme-card" data-scheme-id="agri_kcc">
+                    <h3>Kisan Credit Card</h3>
+                    <span class="deadline-badge" data-deadline="2026-12-31">📅 Deadline: December 31, 2026</span>
+                    <div class="alarm-indicator-wrap"></div>
+
+                    <div class="scheme-info">
+                        <strong>📝 Description:</strong>
+                        <p class="scheme-description">Provides adequate and timely credit for agriculture and allied activities.</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>✅ Eligibility:</strong>
+                        <p>Farmers with land</p>
+                    </div>
+
+                    <div class="scheme-info">
+                        <strong>📅 Deadline:</strong>
+                        <p>December 31, 2026</p>
+                    </div>
+
+                    <div class="scheme-card-actions">
+                        <a href="https://kcc.gov.in" target="_blank" class="apply-btn">Apply Now</a>
+                        <button class="btn-set-alarm-trigger"
+                            onclick="openAlarmModal('agri_kcc', 'Kisan Credit Card', '2026-12-31')">
+                            🔔 Set Alarm
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div></section>
+
+    <footer class="footer"><div class="container">
+        <p>&copy; 2026 Government Scheme Notifier | All Rights Reserved</p>
+        <p>Made with ❤️ for India 🇮🇳</p>
+    </div></footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/alarms.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        checkAuth();
+        const _u = localStorage.getItem('username');
+        if (_u) document.getElementById('usernameDisplay').textContent = _u;
+
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUpcomingDeadlines();
+            // Update deadline badges with urgency labels
+            document.querySelectorAll('[data-deadline]').forEach(badge => {
+                const deadline = badge.getAttribute('data-deadline');
+                const label = getUrgencyLabel(deadline);
+                if (label) badge.textContent = label;
+                // Add countdown class
+                const today = new Date();
+                const dl = new Date(deadline);
+                const days = Math.round((dl - today) / 86400000);
+                badge.classList.add(
+                    days < 0 ? 'expired' : days <= 7 ? 'critical' : days <= 30 ? 'warning' : 'safe'
+                );
+            });
+        });
+    </script>
+</body>
+</html>

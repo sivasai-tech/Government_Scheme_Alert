@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Scheme Notifier</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+:root{--saffron:#FF9933;--india-green:#138808;--navy:#003366;--cream:#FFFBF5;--text-mid:#475569;--shadow-card:0 20px 60px rgba(0,0,0,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:#0f172a;min-height:100vh}
+.header{background:linear-gradient(135deg,#003366 0%,#00214d 100%);position:sticky;top:0;z-index:200;box-shadow:0 4px 30px rgba(0,0,51,.4)}
+.header-inner{max-width:1300px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo-group{display:flex;align-items:center;gap:12px}
+.logo-flag{font-size:2rem}
+.logo-text{font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem;line-height:1.2}
+.logo-sub{color:rgba(255,255,255,.55);font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:18px}
+.welcome-text{color:rgba(255,255,255,.75);font-size:.88rem}
+.welcome-text strong{color:#fff}
+.btn-logout{background:linear-gradient(135deg,#FF9933,#e07a00);color:#fff;border:none;padding:8px 20px;border-radius:30px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(255,153,51,.35)}
+.btn-logout:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,153,51,.5)}
+.notification-banner{background:linear-gradient(90deg,#7f1d1d,#dc2626);color:#fff;padding:12px 28px;display:flex;align-items:center;gap:14px;font-size:.9rem;font-weight:600;animation:slideDown .4s ease}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+.banner-icon{font-size:1.2rem}
+.carousel-section{position:relative;width:100%;overflow:hidden;height:520px}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;background-size:cover;background-position:center}
+.slide::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,30,80,.82) 0%,rgba(0,0,0,.35) 60%,transparent 100%)}
+.slide.active{opacity:1;z-index:1}
+.slide-1{background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1400&q=80')}
+.slide-2{background-image:url('https://images.unsplash.com/photo-1584515933487-779824d29309?w=1400&q=80')}
+.slide-3{background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&q=80')}
+.slide-4{background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1400&q=80')}
+.slide-5{background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=80')}
+.slide-6{background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&q=80')}
+.slide-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:60px 80px;max-width:680px}
+.slide-tag{display:inline-block;background:var(--saffron);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:30px;margin-bottom:18px;width:fit-content}
+.slide-content h2{font-family:'Playfair Display',serif;font-size:3rem;color:#fff;line-height:1.15;margin-bottom:14px}
+.slide-content p{font-size:1.05rem;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:28px}
+.slide-cta{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);color:#fff;padding:11px 24px;border-radius:30px;font-weight:600;font-size:.9rem;text-decoration:none;backdrop-filter:blur(6px);transition:all .25s;width:fit-content;cursor:pointer}
+.slide-cta:hover{background:var(--saffron);border-color:var(--saffron);transform:translateX(4px)}
+.slide-counter{position:absolute;bottom:28px;left:80px;z-index:10;color:rgba(255,255,255,.6);font-size:.8rem;letter-spacing:.1em}
+.slide-counter span{color:#fff;font-weight:700;font-size:1.1rem}
+.carousel-dots{position:absolute;bottom:28px;right:80px;z-index:10;display:flex;gap:8px;align-items:center}
+.cdot{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.4);cursor:pointer;transition:all .4s}
+.cdot.active{width:28px;background:var(--saffron)}
+.carr-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(0,0,0,.3);backdrop-filter:blur(6px);color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.carr-btn:hover{background:var(--saffron);border-color:var(--saffron)}
+.carr-prev{left:24px}
+.carr-next{right:24px}
+.slide-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--saffron);z-index:10;animation:slideProgress 4.5s linear infinite}
+@keyframes slideProgress{from{width:0}to{width:100%}}
+.stats-strip{background:#fff;border-bottom:1px solid #e8ecf0}
+.stats-inner{max-width:1300px;margin:0 auto;padding:18px 28px;display:flex;gap:0}
+.stat-item{flex:1;display:flex;align-items:center;gap:12px;padding:0 24px;border-right:1px solid #e8ecf0}
+.stat-item:first-child{padding-left:0}
+.stat-item:last-child{border-right:none}
+.stat-icon{font-size:1.6rem}
+.stat-label{font-size:.73rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:.07em}
+.stat-value{font-size:1.4rem;font-weight:700;color:var(--navy);line-height:1}
+.sectors-section{max-width:1300px;margin:0 auto;padding:60px 28px 80px}
+.section-head{margin-bottom:48px}
+.section-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--saffron);margin-bottom:10px}
+.section-head h2{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--navy);line-height:1.2}
+.section-head p{color:var(--text-mid);font-size:1rem;margin-top:10px}
+.sectors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.sector-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:all .35s cubic-bezier(.25,.8,.25,1);cursor:pointer;position:relative}
+.sector-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,.15)}
+.sector-img-wrap{overflow:hidden;position:relative;height:200px}
+.sector-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;display:block}
+.sector-card:hover .sector-img{transform:scale(1.06)}
+.sector-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,20,60,.65) 100%)}
+.sector-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.sector-emoji{position:absolute;bottom:14px;right:14px;font-size:2rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.sector-body{padding:22px 24px}
+.sector-body h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);margin-bottom:6px}
+.sector-body p{font-size:.86rem;color:var(--text-mid);line-height:1.6;margin-bottom:14px}
+.sector-link{display:inline-flex;align-items:center;gap:6px;color:var(--saffron);font-weight:700;font-size:.85rem;text-decoration:none;transition:gap .2s}
+.sector-link:hover{gap:10px}
+.sector-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--saffron);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.sector-card:hover::after{transform:scaleX(1)}
+.footer{background:linear-gradient(135deg,#003366 0%,#00214d 100%);color:rgba(255,255,255,.6);text-align:center;padding:36px 28px;font-size:.85rem}
+.footer strong{color:#fff}
+@media(max-width:900px){.sectors-grid{grid-template-columns:repeat(2,1fr)}.slide-content{padding:40px}.slide-content h2{font-size:2rem}.stats-inner{flex-wrap:wrap}.stat-item{flex:1 1 45%;border-right:none;padding-bottom:12px}}
+@media(max-width:600px){.carousel-section{height:360px}.sectors-grid{grid-template-columns:1fr}.slide-content{padding:24px 20px}.slide-content h2{font-size:1.5rem}.slide-counter,.carousel-dots{bottom:14px}.carr-btn{width:38px;height:38px}}
+    </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-group">
+      <span class="logo-flag">&#127470;&#127475;</span>
+      <div>
+        <div class="logo-text">Government Scheme Notifier</div>
+        <div class="logo-sub">Welfare Schemes &middot; All Sectors</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="welcome-text">Welcome, <strong id="usernameDisplay"></strong></span>
+      <button onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+  </div>
+</header>
+
+<div id="notificationBanner" class="notification-banner" style="display:none;">
+  <span class="banner-icon">&#9888;&#65039;</span>
+  <span id="notificationText"></span>
+</div>
+
+<section class="carousel-section" id="carousel">
+  <div class="slide slide-1 active">
+    <div class="slide-content">
+      <span class="slide-tag">Education</span>
+      <h2>Scholarships for Every Aspiring Student</h2>
+      <p>From PM Scholarship to National Merit awards &mdash; discover funding that transforms futures.</p>
+      <span class="slide-cta" onclick="location.href='education.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+  <div class="slide slide-2">
+    <div class="slide-content">
+      <span class="slide-tag">Healthcare</span>
+      <h2>Quality Healthcare for Every Citizen</h2>
+      <p>Ayushman Bharat, free medicines &amp; maternal care programmes await you.</p>
+      <span class="slide-cta" onclick="location.href='health.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+  <div class="slide slide-3">
+    <div class="slide-content">
+      <span class="slide-tag">Agriculture</span>
+      <h2>Empowering India&#39;s Farmers</h2>
+      <p>PM-KISAN income support, Fasal Bima crop insurance &amp; Kisan Credit Cards.</p>
+      <span class="slide-cta" onclick="location.href='agriculture.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+  <div class="slide slide-4">
+    <div class="slide-content">
+      <span class="slide-tag">Women Empowerment</span>
+      <h2>Schemes That Champion Women</h2>
+      <p>Beti Bachao, Ujjwala Yojana, Sukanya Samriddhi &mdash; for every woman and girl.</p>
+      <span class="slide-cta" onclick="location.href='women.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+  <div class="slide slide-5">
+    <div class="slide-content">
+      <span class="slide-tag">Employment</span>
+      <h2>Jobs, Skills &amp; Entrepreneurship</h2>
+      <p>MGNREGA, Mudra Loans, Startup India &mdash; build careers and businesses.</p>
+      <span class="slide-cta" onclick="location.href='employment.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+  <div class="slide slide-6">
+    <div class="slide-content">
+      <span class="slide-tag">Housing</span>
+      <h2>Affordable Homes for All Indians</h2>
+      <p>PM Awas Yojana, Slum Rehabilitation, Solar Subsidies &mdash; turning aspirations into reality.</p>
+      <span class="slide-cta" onclick="location.href='housing.html'">Explore Schemes &#8594;</span>
+    </div>
+  </div>
+
+  <button class="carr-btn carr-prev" onclick="movSlide(-1)">&#10094;</button>
+  <button class="carr-btn carr-next" onclick="movSlide(1)">&#10095;</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+  <div class="slide-counter"><span id="slideNum">1</span> / 6</div>
+  <div class="slide-progress" id="slideProgress"></div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="stat-icon">&#128203;</span><div><div class="stat-label">Total Schemes</div><div class="stat-value">20+</div></div></div>
+    <div class="stat-item"><span class="stat-icon">&#127919;</span><div><div class="stat-label">Sectors Covered</div><div class="stat-value">6</div></div></div>
+    <div class="stat-item"><span class="stat-icon">&#9200;</span><div><div class="stat-label">Your Alarms</div><div class="stat-value" id="alarmCount">0</div></div></div>
+    <div class="stat-item"><span class="stat-icon">&#128308;</span><div><div class="stat-label">Deadlines This Month</div><div class="stat-value">4</div></div></div>
+  </div>
+</div>
+
+<section class="sectors-section">
+  <div class="section-head">
+    <div class="section-eyebrow">Browse by Sector</div>
+    <h2>Explore Government Schemes</h2>
+    <p>Click any sector to view welfare schemes, deadlines and set alarms.</p>
+  </div>
+  <div class="sectors-grid">
+
+    <div class="sector-card" onclick="location.href='education.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80" alt="Education" onerror="this.parentElement.style.background='linear-gradient(135deg,#003366,#FF9933)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Education</span>
+        <span class="sector-emoji">&#128218;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Education</h3>
+        <p>Scholarships, student loans, digital learning and skill development programmes.</p>
+        <span class="sector-link">View 6 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+    <div class="sector-card" onclick="location.href='health.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=600&q=80" alt="Health" onerror="this.parentElement.style.background='linear-gradient(135deg,#003366,#138808)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Healthcare</span>
+        <span class="sector-emoji">&#127973;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Health</h3>
+        <p>Ayushman Bharat, maternal care, generic medicines &amp; healthcare insurance.</p>
+        <span class="sector-link">View 3 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+    <div class="sector-card" onclick="location.href='agriculture.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Agriculture" onerror="this.parentElement.style.background='linear-gradient(135deg,#138808,#003366)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Agriculture</span>
+        <span class="sector-emoji">&#127806;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Agriculture</h3>
+        <p>PM-KISAN income support, crop insurance, Kisan Credit Cards for farmers.</p>
+        <span class="sector-link">View 3 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+    <div class="sector-card" onclick="location.href='women.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Women" onerror="this.parentElement.style.background='linear-gradient(135deg,#7c3aed,#003366)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Women &amp; Child</span>
+        <span class="sector-emoji">&#128105;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Women &amp; Child</h3>
+        <p>Beti Bachao, Ujjwala Yojana, Sukanya Samriddhi and empowerment programmes.</p>
+        <span class="sector-link">View 3 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+    <div class="sector-card" onclick="location.href='employment.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Employment" onerror="this.parentElement.style.background='linear-gradient(135deg,#003366,#0ea5e9)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Employment</span>
+        <span class="sector-emoji">&#128188;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Employment</h3>
+        <p>MGNREGA, Mudra Loans, Startup India &mdash; job creation and skill development.</p>
+        <span class="sector-link">View 3 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+    <div class="sector-card" onclick="location.href='housing.html'">
+      <div class="sector-img-wrap">
+        <img class="sector-img" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80" alt="Housing" onerror="this.parentElement.style.background='linear-gradient(135deg,#92400e,#003366)'">
+        <div class="sector-img-overlay"></div>
+        <span class="sector-badge">Housing</span>
+        <span class="sector-emoji">&#127968;</span>
+      </div>
+      <div class="sector-body">
+        <h3>Housing</h3>
+        <p>PM Awas Yojana, slum rehabilitation, solar rooftop subsidies and more.</p>
+        <span class="sector-link">View 3 Schemes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2026 <strong>Government Scheme Notifier</strong> &nbsp;|&nbsp; All Rights Reserved</p>
+  <p style="margin-top:6px;">Made with &#10084;&#65039; for India &#127470;&#127475;</p>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/alarms.js"></script>
+<script>
+  checkAuth();
+  var u = localStorage.getItem('username');
+  if (u) document.getElementById('usernameDisplay').textContent = u;
+
+  // Carousel
+  var slides = document.querySelectorAll('.slide');
+  var total  = slides.length;
+  var cur    = 0;
+  var timer  = null;
+  var prog   = document.getElementById('slideProgress');
+  var dotsEl = document.getElementById('carouselDots');
+
+  for (var i = 0; i < total; i++) {
+    (function(idx){
+      var d = document.createElement('span');
+      d.className = 'cdot' + (idx===0?' active':'');
+      d.onclick = function(){ goSlide(idx); restart(); };
+      dotsEl.appendChild(d);
+    })(i);
+  }
+
+  function goSlide(n) {
+    slides[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('active');
+    cur = (n + total) % total;
+    slides[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('active');
+    document.getElementById('slideNum').textContent = cur + 1;
+    if (prog) { prog.style.animation='none'; void prog.offsetWidth; prog.style.animation=''; }
+  }
+  function restart() { clearInterval(timer); timer = setInterval(function(){ goSlide(cur+1); }, 4500); }
+  function movSlide(d) { goSlide(cur+d); restart(); }
+  window.movSlide = movSlide;
+  restart();
+
+  var cs = document.getElementById('carousel');
+  cs.addEventListener('mouseenter', function(){ clearInterval(timer); });
+  cs.addEventListener('mouseleave', restart);
+  var tx=0;
+  cs.addEventListener('touchstart', function(e){ tx=e.touches[0].clientX; });
+  cs.addEventListener('touchend',   function(e){ var dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) movSlide(dx<0?1:-1); });
+
+  function updateAlarmCount() {
+    try {
+      var alarms = JSON.parse(localStorage.getItem('schemeAlarms')||'{}')||{};
+      var el = document.getElementById('alarmCount');
+      if (el) el.textContent = Object.keys(alarms).length;
+    } catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', updateAlarmCount);
+  setInterval(updateAlarmCount, 3000);
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Government Scheme Notifier</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Login Header -->
+            <div class="login-header">
+                <div class="logo">🇮🇳</div>
+                <h1>Government Scheme Notifier</h1>
+                <p>Access welfare schemes in one place</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <!-- Error Message Display -->
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login">
+                    <span>Login</span>
+                </button>
+
+
+            </form>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>&copy; 2026 Government of India</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Dummy credentials
+            const validUsername = 'admin';
+            const validPassword = '1234';
+            
+            // Validate credentials
+            if (username === validUsername && password === validPassword) {
+                // Success - store login state
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                // Hide error message
+                errorMsg.style.display = 'none';
+                
+                // Show success and redirect
+                errorMsg.textContent = '✅ Login successful! Redirecting...';
+                errorMsg.style.display = 'block';
+                errorMsg.style.background = '#d4edda';
+                errorMsg.style.color = '#155724';
+                errorMsg.style.borderColor = '#c3e6cb';
+                
+                // Redirect after short delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                // Show error message
+                errorMsg.textContent = '❌ Invalid username or password. Please try again.';
+                errorMsg.style.display = 'block';
+                errorMsg.style.background = '#f8d7da';
+                errorMsg.style.color = '#721c24';
+                errorMsg.style.borderColor = '#f5c6cb';
+                
+                // Shake animation
+                const card = document.querySelector('.login-card');
+                card.classList.add('shake');
+                setTimeout(() => {
+                    card.classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('loggedIn') === 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
